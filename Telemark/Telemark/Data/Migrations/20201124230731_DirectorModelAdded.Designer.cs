@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Telemark.Data;
 
 namespace Telemark.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201124230731_DirectorModelAdded")]
+    partial class DirectorModelAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace Telemark.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d0b9e899-27f8-44ff-b424-273b074e280d",
-                            ConcurrencyStamp = "603501ad-5a70-4e51-9f09-161aaffd8224",
+                            Id = "4885d96e-4803-48ea-b656-1a363f6a5a04",
+                            ConcurrencyStamp = "6b8916c1-2f43-4d21-aeed-d8e04ebb6d3f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "cab3b5ab-9f9f-4190-9a9e-99bd851e22f3",
-                            ConcurrencyStamp = "e26d078e-445d-4adf-8bfc-4cd3636ae0b5",
+                            Id = "e718afe3-7d76-48ef-9119-2491e02e9aa0",
+                            ConcurrencyStamp = "a11ff938-642f-4cec-b122-cddf4bbb0d0b",
                             Name = "Director",
                             NormalizedName = "DIRECTOR"
                         });
@@ -231,42 +233,6 @@ namespace Telemark.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Telemark.Models.Address", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("city")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("country_code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("race_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("state")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("street")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("street2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("zipcode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("race_id")
-                        .IsUnique();
-
-                    b.ToTable("Address");
-                });
-
             modelBuilder.Entity("Telemark.Models.Director", b =>
                 {
                     b.Property<int>("Id")
@@ -320,187 +286,7 @@ namespace Telemark.Data.Migrations
 
                     b.HasIndex("IdentityUserId");
 
-                    b.ToTable("Directors");
-                });
-
-            modelBuilder.Entity("Telemark.Models.Event", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("age_calc_base_date")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("details")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("distance")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("end_time")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("event_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("event_type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("giveaway")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("race_event_days_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("race_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("registration_opens")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("require_dob")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("require_phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("start_time")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("volunteer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("race_id");
-
-                    b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("Telemark.Models.RSU_Race", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("raceid")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("raceid");
-
-                    b.ToTable("Races");
-                });
-
-            modelBuilder.Entity("Telemark.Models.Race", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("can_use_registration_api")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("created")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("external_race_url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("external_results_url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("fb_event_id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("fb_page_id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("is_draft_race")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("is_private_race")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("is_registration_open")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("last_date")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("last_end_date")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("last_modified")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("logo_url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("next_date")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("next_end_date")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("race_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("real_time_notifications_enabled")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("timezone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Race");
-                });
-
-            modelBuilder.Entity("Telemark.Models.Registration_Periods", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("Eventid")
-                        .HasColumnType("int");
-
-                    b.Property<string>("processing_fee")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("race_fee")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("registration_closes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("registration_opens")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("Eventid");
-
-                    b.ToTable("Registration_Periods");
+                    b.ToTable("Director");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -554,43 +340,11 @@ namespace Telemark.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Telemark.Models.Address", b =>
-                {
-                    b.HasOne("Telemark.Models.Race", "Race")
-                        .WithOne("address")
-                        .HasForeignKey("Telemark.Models.Address", "race_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Telemark.Models.Director", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
-                });
-
-            modelBuilder.Entity("Telemark.Models.Event", b =>
-                {
-                    b.HasOne("Telemark.Models.Race", "Race")
-                        .WithMany("events")
-                        .HasForeignKey("race_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Telemark.Models.RSU_Race", b =>
-                {
-                    b.HasOne("Telemark.Models.Race", "race")
-                        .WithMany()
-                        .HasForeignKey("raceid");
-                });
-
-            modelBuilder.Entity("Telemark.Models.Registration_Periods", b =>
-                {
-                    b.HasOne("Telemark.Models.Event", null)
-                        .WithMany("registration_periods")
-                        .HasForeignKey("Eventid");
                 });
 #pragma warning restore 612, 618
         }

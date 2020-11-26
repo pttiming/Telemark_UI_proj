@@ -22,7 +22,7 @@ namespace Telemark.Controllers
         // GET: Directors
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Director.Include(d => d.IdentityUser);
+            var applicationDbContext = _context.Directors.Include(d => d.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace Telemark.Controllers
                 return NotFound();
             }
 
-            var director = await _context.Director
+            var director = await _context.Directors
                 .Include(d => d.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (director == null)
@@ -77,7 +77,7 @@ namespace Telemark.Controllers
                 return NotFound();
             }
 
-            var director = await _context.Director.FindAsync(id);
+            var director = await _context.Directors.FindAsync(id);
             if (director == null)
             {
                 return NotFound();
@@ -130,7 +130,7 @@ namespace Telemark.Controllers
                 return NotFound();
             }
 
-            var director = await _context.Director
+            var director = await _context.Directors
                 .Include(d => d.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (director == null)
@@ -146,15 +146,15 @@ namespace Telemark.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var director = await _context.Director.FindAsync(id);
-            _context.Director.Remove(director);
+            var director = await _context.Directors.FindAsync(id);
+            _context.Directors.Remove(director);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DirectorExists(int id)
         {
-            return _context.Director.Any(e => e.Id == id);
+            return _context.Directors.Any(e => e.Id == id);
         }
     }
 }
