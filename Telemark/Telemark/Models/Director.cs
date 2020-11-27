@@ -42,7 +42,7 @@ namespace Telemark.Models
         public string RSU_API_Secret { get; set; }
 
         [NotMapped]
-        public List<RSU_Race> Races { get; set; }
+        public List<Race> Races { get; set; }
 
 
     }

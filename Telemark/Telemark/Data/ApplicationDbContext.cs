@@ -36,8 +36,11 @@ namespace Telemark.Data
             );
         }
         public DbSet<Telemark.Models.Director> Directors { get; set; }
-        public DbSet<RSU_Race> Races { get; set; }
 
         public DbSet<Event> Events { get; set; }
+
+        public DbSet<Participant> Participants { get; set; }
+        public DbSet<TextUser> TextUsers { get; set; }
+        public DbSet<Telemark.Models.RsuRaces> RsuRaces { get; set; }
     }
 }

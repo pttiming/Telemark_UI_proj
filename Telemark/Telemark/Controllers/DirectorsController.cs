@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Telemark.Data;
 using Telemark.Models;
+using Telemark.Services;
 
 namespace Telemark.Controllers
 {
@@ -14,16 +16,30 @@ namespace Telemark.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public DirectorsController(ApplicationDbContext context)
+        public RSU_Service _rsu;
+
+        public DirectorsController(ApplicationDbContext context, RSU_Service rsu)
         {
             _context = context;
+            _rsu = rsu;
         }
 
         // GET: Directors
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Directors.Include(d => d.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var director =  GetDirector();
+            if (director == null)
+            {
+                return RedirectToAction("Create", "Directors");
+            }
+            var raceresults = await _rsu.GetRaces(director.RSU_API_Key, director.RSU_API_Secret);
+            List<Race> races = new List<Race>();
+            foreach (RaceObject ro in raceresults.races)
+            {
+                races.Add(ro.race);
+            }
+            //var applicationDbContext = _context.Directors.Include(d => d.IdentityUser);
+            return View(races);
         }
 
         // GET: Directors/Details/5
@@ -57,16 +73,14 @@ namespace Telemark.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,CompanyName,IdentityUserId,Address1,Address2,City,State,ZipCode,Country,Latitude,Longitude,RSU_API_Key,RSU_API_Secret")] Director director)
+        public async Task<IActionResult> Create(Director director)
         {
-            if (ModelState.IsValid)
-            {
+      
+                director.Longitude = 0;
+                director.Latitude = 0;
                 _context.Add(director);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", director.IdentityUserId);
-            return View(director);
         }
 
         // GET: Directors/Edit/5
@@ -155,6 +169,14 @@ namespace Telemark.Controllers
         private bool DirectorExists(int id)
         {
             return _context.Directors.Any(e => e.Id == id);
+        }
+
+        public Director GetDirector()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var director = _context.Directors.Where(d => d.IdentityUserId == userId).SingleOrDefault();
+
+            return director;
         }
     }
 }

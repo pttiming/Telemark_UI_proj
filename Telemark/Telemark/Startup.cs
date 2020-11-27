@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Telemark.ActionFilters;
 using Telemark.Data;
+using Telemark.Services;
 
 namespace Telemark
 {
@@ -44,6 +45,9 @@ namespace Telemark
             });
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddScoped<RSU_Service>();
+            services.AddScoped<GoogleService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

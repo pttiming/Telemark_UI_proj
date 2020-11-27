@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Telemark.Data;
 
 namespace Telemark.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201126181126_director2")]
+    partial class director2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace Telemark.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "778bf6b1-f638-4fad-846d-ee2ee43e23b5",
-                            ConcurrencyStamp = "593a1f75-d89f-4d8c-84f2-08c6ac35992a",
+                            Id = "d760680a-216c-42cb-8e51-9e83e892ccfd",
+                            ConcurrencyStamp = "6b240e6f-a269-46c5-bf30-0a172bdf022b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ed39b553-76da-4225-8948-bae60d165b05",
-                            ConcurrencyStamp = "c396deca-7a0d-48da-8e4c-17533ee92b74",
+                            Id = "6c70cef9-a68c-4061-985f-0fcda1a0f2fe",
+                            ConcurrencyStamp = "c6127419-7158-4a9d-8763-6118ac01bb98",
                             Name = "Director",
                             NormalizedName = "DIRECTOR"
                         });
@@ -465,9 +467,6 @@ namespace Telemark.Data.Migrations
 
                     b.Property<int>("race_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("real_time_notifications_enabled")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("timezone")
                         .HasColumnType("nvarchar(max)");

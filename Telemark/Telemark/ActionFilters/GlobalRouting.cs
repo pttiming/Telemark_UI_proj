@@ -28,7 +28,7 @@ namespace Telemark.ActionFilters
                 else if (_claimsPrincipal.IsInRole("Director"))
                 {
                     context.Result = new RedirectToActionResult("Index",
-                    "Director", null);
+                    "Directors", null);
                 }
             }
         }
