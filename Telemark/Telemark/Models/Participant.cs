@@ -12,9 +12,12 @@ namespace Telemark.Models
     {
         [Key]
         public int id { get; set; }
-        [ForeignKey("User")]
-        public int user_id { get; set; }
-        public User user { get; set; }
+        [ForeignKey("Race")]
+        public int race_id { get; set; }
+        public Race race { get; set; }
+        [ForeignKey("Event")]
+        public int event_id { get; set; }
+        public Event Event { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string email { get; set; }
@@ -22,18 +25,17 @@ namespace Telemark.Models
         public string gender { get; set; }
         public string phone { get; set; }
         public int registration_id { get; set; }
-        public int event_id { get; set; }
-        public int bib_num { get; set; }
+        public int? bib_num { get; set; }
         public string chip_num { get; set; }
-        public int age { get; set; }
+        public int? age { get; set; }
         public string registration_date { get; set; }
-        public int team_id { get; set; }
+        public int? team_id { get; set; }
         public string team_name { get; set; }
-        public int team_type_id { get; set; }
+        public int? team_type_id { get; set; }
         public string team_type { get; set; }
         public string team_gender { get; set; }
         public string team_bib_num { get; set; }
-        public int last_modified { get; set; }
+        public int? last_modified { get; set; }
 
     }
 }

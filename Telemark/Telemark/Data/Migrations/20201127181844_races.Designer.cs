@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Telemark.Data;
 
 namespace Telemark.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201127181844_races")]
+    partial class races
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace Telemark.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "87d7f458-9eee-4ddf-aa7f-bd6bb82507bf",
-                            ConcurrencyStamp = "e788a050-f502-4b19-9304-8cad5ba1b418",
+                            Id = "69766ac1-777c-43c1-8c67-fc8b2471d91b",
+                            ConcurrencyStamp = "c519b453-15d8-42b1-a61c-cc3e450e89de",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "9ca323fa-f83f-40ab-94ee-1b9eed39fde6",
-                            ConcurrencyStamp = "4aa89e30-0571-48b7-ace0-e890d2e1768d",
+                            Id = "05d8875a-21eb-4f7a-b84a-7416aaa59f22",
+                            ConcurrencyStamp = "df2a3576-7139-497c-beea-589cf6876dd6",
                             Name = "Director",
                             NormalizedName = "DIRECTOR"
                         });
@@ -231,6 +233,36 @@ namespace Telemark.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Telemark.Models.Address", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("city")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("country_code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("state")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("street")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("street2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("zipcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Address");
+                });
+
             modelBuilder.Entity("Telemark.Models.Director", b =>
                 {
                     b.Property<int>("Id")
@@ -356,10 +388,10 @@ namespace Telemark.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("age")
+                    b.Property<int>("age")
                         .HasColumnType("int");
 
-                    b.Property<int?>("bib_num")
+                    b.Property<int>("bib_num")
                         .HasColumnType("int");
 
                     b.Property<string>("chip_num")
@@ -380,7 +412,7 @@ namespace Telemark.Data.Migrations
                     b.Property<string>("gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("last_modified")
+                    b.Property<int>("last_modified")
                         .HasColumnType("int");
 
                     b.Property<string>("last_name")
@@ -388,12 +420,6 @@ namespace Telemark.Data.Migrations
 
                     b.Property<string>("phone")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("race_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("raceid")
-                        .HasColumnType("int");
 
                     b.Property<string>("registration_date")
                         .HasColumnType("nvarchar(max)");
@@ -407,7 +433,7 @@ namespace Telemark.Data.Migrations
                     b.Property<string>("team_gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("team_id")
+                    b.Property<int>("team_id")
                         .HasColumnType("int");
 
                     b.Property<string>("team_name")
@@ -416,14 +442,18 @@ namespace Telemark.Data.Migrations
                     b.Property<string>("team_type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("team_type_id")
+                    b.Property<int>("team_type_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("user_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("userid")
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
-                    b.HasIndex("event_id");
-
-                    b.HasIndex("raceid");
+                    b.HasIndex("userid");
 
                     b.ToTable("Participants");
                 });
@@ -434,6 +464,9 @@ namespace Telemark.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("addressid")
+                        .HasColumnType("int");
 
                     b.Property<string>("created")
                         .HasColumnType("nvarchar(max)");
@@ -497,64 +530,43 @@ namespace Telemark.Data.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("addressid");
+
                     b.ToTable("Races");
                 });
 
-            modelBuilder.Entity("Telemark.Models.RaceAddress", b =>
+            modelBuilder.Entity("Telemark.Models.RaceObject", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("city")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("country_code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("race_id")
+                    b.Property<int?>("RsuRacesid")
                         .HasColumnType("int");
 
-                    b.Property<string>("state")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("street")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("street2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("zipcode")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("raceid")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
-                    b.HasIndex("race_id")
-                        .IsUnique();
+                    b.HasIndex("RsuRacesid");
 
-                    b.ToTable("RaceAddress");
+                    b.HasIndex("raceid");
+
+                    b.ToTable("RaceObject");
                 });
 
-            modelBuilder.Entity("Telemark.Models.SmsMessage", b =>
+            modelBuilder.Entity("Telemark.Models.RsuRaces", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Number")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Recevied")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("id");
 
-                    b.ToTable("Messages");
+                    b.ToTable("RsuRaces");
                 });
 
             modelBuilder.Entity("Telemark.Models.TextUser", b =>
@@ -576,6 +588,39 @@ namespace Telemark.Data.Migrations
                     b.HasKey("id");
 
                     b.ToTable("TextUsers");
+                });
+
+            modelBuilder.Entity("Telemark.Models.User", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("dob")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("first_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("last_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("user_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -639,30 +684,33 @@ namespace Telemark.Data.Migrations
             modelBuilder.Entity("Telemark.Models.Event", b =>
                 {
                     b.HasOne("Telemark.Models.Race", "race")
-                        .WithMany()
+                        .WithMany("events")
                         .HasForeignKey("raceid");
                 });
 
             modelBuilder.Entity("Telemark.Models.Participant", b =>
                 {
-                    b.HasOne("Telemark.Models.Event", "Event")
+                    b.HasOne("Telemark.Models.User", "user")
                         .WithMany()
-                        .HasForeignKey("event_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("userid");
+                });
+
+            modelBuilder.Entity("Telemark.Models.Race", b =>
+                {
+                    b.HasOne("Telemark.Models.Address", "address")
+                        .WithMany()
+                        .HasForeignKey("addressid");
+                });
+
+            modelBuilder.Entity("Telemark.Models.RaceObject", b =>
+                {
+                    b.HasOne("Telemark.Models.RsuRaces", null)
+                        .WithMany("races")
+                        .HasForeignKey("RsuRacesid");
 
                     b.HasOne("Telemark.Models.Race", "race")
                         .WithMany()
                         .HasForeignKey("raceid");
-                });
-
-            modelBuilder.Entity("Telemark.Models.RaceAddress", b =>
-                {
-                    b.HasOne("Telemark.Models.Race", "Race")
-                        .WithOne("address")
-                        .HasForeignKey("Telemark.Models.RaceAddress", "race_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

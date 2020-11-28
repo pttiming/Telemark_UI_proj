@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Telemark.Data;
 
 namespace Telemark.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201128004018_SMSMessagesTable")]
+    partial class SMSMessagesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace Telemark.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "87d7f458-9eee-4ddf-aa7f-bd6bb82507bf",
-                            ConcurrencyStamp = "e788a050-f502-4b19-9304-8cad5ba1b418",
+                            Id = "903a8e98-750d-4d77-b22d-67f3b3e90246",
+                            ConcurrencyStamp = "839f1bc5-e818-42ba-842c-3a9b9af83439",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "9ca323fa-f83f-40ab-94ee-1b9eed39fde6",
-                            ConcurrencyStamp = "4aa89e30-0571-48b7-ace0-e890d2e1768d",
+                            Id = "195fb7d7-90a8-4216-8cd4-0af6edffe4af",
+                            ConcurrencyStamp = "41c05c74-0ace-4f44-8122-ee3f30185d92",
                             Name = "Director",
                             NormalizedName = "DIRECTOR"
                         });
@@ -534,27 +536,6 @@ namespace Telemark.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("RaceAddress");
-                });
-
-            modelBuilder.Entity("Telemark.Models.SmsMessage", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Number")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Recevied")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Telemark.Models.TextUser", b =>

@@ -178,5 +178,66 @@ namespace Telemark.Controllers
 
             return director;
         }
+
+        public async Task<IActionResult> ImportRace(int id)
+        {
+            var director = GetDirector();
+            var raceObject = await _rsu.GetRace(director.RSU_API_Key, director.RSU_API_Secret, id);
+            var race = raceObject.race;
+            RaceToDB(race);
+            await EventToDB(race, director);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public void RaceToDB(Race race)
+        {
+            _context.Add(race);
+            _context.SaveChanges();
+        }
+
+        public async Task EventToDB(Race race, Director director)
+        {
+            foreach (Event e in race.events)
+            {
+                e.race_id = _context.Races.Where(r => r.race_id == race.race_id).Select(r => r.id).FirstOrDefault();
+                _context.Add(e);
+                _context.SaveChanges();
+                double count = await _rsu.GetParticipantCount(director.RSU_API_Key, director.RSU_API_Secret, race.race_id, e.event_id);
+                //int page = (int)Math.Ceiling(count / 50);
+                var participants = await _rsu.GetParticipants(director.RSU_API_Key, director.RSU_API_Secret, race.race_id, e.event_id);
+                if(participants.Count != 0)
+                {
+                    ParticipantToDB(participants, race.race_id, e.event_id);
+                }
+            }
+        }
+        public void ParticipantToDB(List<ParticipantObject> participants, int raceId, int eventId)
+        {
+            foreach (ParticipantObject p in participants)
+            {
+                Participant np = new Participant();
+                np.race_id = _context.Races.Where(r => r.race_id == raceId).Select(r => r.id).FirstOrDefault();
+                np.event_id = _context.Events.Where(e => e.event_id == eventId).Select(r => r.id).FirstOrDefault();
+                np.first_name = p.user.first_name;
+                np.last_name = p.user.last_name;
+                np.email = p.user.email;
+                np.dob = p.user.dob;
+                np.gender = p.user.gender;
+                np.phone = p.user.phone;
+                np.registration_id = (int)p.registration_id;
+                np.bib_num = p.bib_num;
+                np.chip_num = p.chip_num;
+                np.age = p.age;
+                np.registration_date = p.registration_date;
+                np.team_id = p.team_id;
+                np.team_name = p.team_name;
+                np.team_type_id = p.team_type_id;
+                np.team_type = p.team_type;
+                np.team_gender = p.team_gender;
+                np.team_bib_num = p.team_bib_num;
+                np.last_modified = p.last_modified;
+                _context.Add(np);
+            }
+        }
     }
 }
