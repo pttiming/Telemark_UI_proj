@@ -27,8 +27,6 @@ namespace Telemark.Controllers
         // GET: Directors
         public async Task<IActionResult> Index()
         {
-            var data = await _rsu.GetParticipantResultsURL(103590, 451662, 472);
-            string results = await _rsu.ScrapeCertificatePage(data);
             var director =  GetDirector();
             if (director == null)
             {
@@ -41,6 +39,7 @@ namespace Telemark.Controllers
                 races.Add(ro.race);
             }
             //var applicationDbContext = _context.Directors.Include(d => d.IdentityUser);
+            races = races.OrderBy(r => r.next_date).ToList();
             return View(races);
         }
 
@@ -66,7 +65,6 @@ namespace Telemark.Controllers
         // GET: Directors/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -75,14 +73,15 @@ namespace Telemark.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Director director)
+        public ActionResult Create(Director director)
         {
-      
-                director.Longitude = 0;
-                director.Latitude = 0;
-                _context.Add(director);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            director.IdentityUserId = userId;
+            director.Longitude = 0;
+            director.Latitude = 0;
+            _context.Add(director);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Directors/Edit/5

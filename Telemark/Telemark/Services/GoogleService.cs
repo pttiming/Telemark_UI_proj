@@ -12,9 +12,9 @@ namespace Telemark.Services
 {
     public class GoogleService
     {
-        public async Task<Director> GetGeoCode(Director director)
+        public async Task<Location> GetGeoCode(Location location)
         {
-            string address = GoogleAddressParser(director);
+            string address = GoogleAddressParser(location);
             Uri geocodeURL = new Uri("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + API_KEYS.googleMapsApi);
             HttpClient httpClient = new HttpClient();
             var response = await httpClient.GetAsync(geocodeURL);
@@ -23,111 +23,55 @@ namespace Telemark.Services
             {
                 var task = response.Content.ReadAsStringAsync().Result;
                 JObject mapsData = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(task);
-                director.Latitude = Convert.ToDecimal(mapsData["results"][0]["geometry"]["location"]["lat"]);
-                director.Longitude = Convert.ToDecimal(mapsData["results"][0]["geometry"]["location"]["lng"]);
+                location.Latitude = Convert.ToDecimal(mapsData["results"][0]["geometry"]["location"]["lat"]);
+                location.Longitude = Convert.ToDecimal(mapsData["results"][0]["geometry"]["location"]["lng"]);
             }
 
-            return director;
+            return location;
         }
 
-        //public async Task<Models.Event> GetGeoCode(Models.Event groupChatEvent)
-        //{
-        //    string address = GoogleAddressParser(groupChatEvent);
-        //    Uri geocodeURL = new Uri("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + API_KEYS.googleMapsApi);
-        //    HttpClient httpClient = new HttpClient();
-        //    var response = await httpClient.GetAsync(geocodeURL);
 
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var task = response.Content.ReadAsStringAsync().Result;
-        //        JObject mapsData = JsonConvert.DeserializeObject<JObject>(task);
-        //        groupChatEvent.Latitude = Convert.ToDecimal(mapsData["results"][0]["geometry"]["location"]["lat"]);
-        //        groupChatEvent.Longitude = Convert.ToDecimal(mapsData["results"][0]["geometry"]["location"]["lng"]);
-        //    }
-
-        //    return groupChatEvent;
-        //}
-
-        private string GoogleAddressParser(Director director)
+        private string GoogleAddressParser(Location location)
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < director.Address1.Length; i++)
+            for (int i = 0; i < location.Address1.Length; i++)
             {
-                if (director.Address1[i] == ' ')
+                if (location.Address1[i] == ' ')
                 {
                     sb.Append("+");
                 }
                 else
                 {
-                    sb.Append(director.Address1[i]);
+                    sb.Append(location.Address1[i]);
                 }
             }
             sb.Append(",+");
-            for (int i = 0; i < director.City.Length; i++)
+            for (int i = 0; i < location.City.Length; i++)
             {
-                if (director.City[i] == ' ')
+                if (location.City[i] == ' ')
                 {
                     sb.Append("+");
                 }
                 else
                 {
-                    sb.Append(director.City[i]);
+                    sb.Append(location.City[i]);
                 }
             }
             sb.Append(",+");
-            for (int i = 0; i < director.State.Length; i++)
+            for (int i = 0; i < location.State.Length; i++)
             {
-                if (director.State[i] == ' ')
+                if (location.State[i] == ' ')
                 {
                     sb.Append("+");
                 }
                 else
                 {
-                    sb.Append(director.State[i]);
+                    sb.Append(location.State[i]);
                 }
             }
             return sb.ToString();
         }
 
-        //private string GoogleAddressParser(Models.Event groupChatEvent)
-        //{
-        //    StringBuilder sb = new StringBuilder();
-        //    for (int i = 0; i < groupChatEvent.Address1.Length; i++)
-        //    {
-        //        if (groupChatEvent.Address1[i] == ' ')
-        //        {
-        //            sb.Append("+");
-        //        }
-        //        else
-        //        {
-        //            sb.Append(groupChatEvent.Address1[i]);
-        //        }
-        //    }
-        //    sb.Append(",+");
-        //    for (int i = 0; i < groupChatEvent.City.Length; i++)
-        //    {
-        //        if (groupChatEvent.City[i] == ' ')
-        //        {
-        //            sb.Append("+");
-        //        }
-        //        else
-        //        {
-        //            sb.Append(groupChatEvent.City[i]);
-        //        }
-        //    }
-        //    sb.Append(",+");
-        //    for (int i = 0; i < groupChatEvent.State.Length; i++)
-        //    {
-        //        if (groupChatEvent.State[i] == ' ')
-        //        {
-        //            sb.Append("+");
-        //        }
-        //        else
-        //        {
-        //            sb.Append(groupChatEvent.State[i]);
-        //        }
-        //    }
-        //    return sb.ToString();
-        //}
+        
     }
 }

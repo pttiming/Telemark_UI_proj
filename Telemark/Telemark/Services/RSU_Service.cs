@@ -27,7 +27,7 @@ namespace Telemark.Services
         [HttpGet]
         public async Task<RsuRaces> GetRaces(string apiKey, string apiSecret)
         {
-            string url = $"https://runsignup.com/rest/races?api_key={apiKey}&api_secret={apiSecret}&format=JSON&start_date=2020-01-01&only_partner_races=T";
+            string url = $"https://runsignup.com/rest/races?api_key={apiKey}&api_secret={apiSecret}&format=JSON&start_date=2020-07-07&only_partner_races=T";
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
             string jsonResult = "";
