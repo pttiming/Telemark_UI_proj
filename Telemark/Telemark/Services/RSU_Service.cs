@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HtmlAgilityPack;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -9,15 +10,18 @@ using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Telemark.Data;
 using Telemark.Models;
 
 namespace Telemark.Services
 {
     public class RSU_Service
     {
-        public RSU_Service()
-        {
+        private readonly ApplicationDbContext _context;
 
+        public RSU_Service(ApplicationDbContext context)
+        {
+            _context = context;
         }
 
         [HttpGet]
@@ -104,6 +108,44 @@ namespace Telemark.Services
             }
             return po;
         }
+
+        [HttpGet]
+        public async Task<string> GetParticipantResultsURL(int raceId, int eventId, int bib)
+        {
+            var director_id = _context.Races.Where(r => r.race_id == raceId).Select(r => r.director_id).FirstOrDefault();
+            var director = _context.Directors.Where(d => d.Id == director_id).FirstOrDefault();
+            string apiKey = director.RSU_API_Key;
+            string apiSecret = director.RSU_API_Secret;
+            string url = $"https://runsignup.com/Rest/race/{raceId}/results/get-results?format=json&event_id={eventId}&bib_num={bib}&api_key={apiKey}&api_secret={apiSecret}";
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(url);
+            string certUrl = "";
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResult = await response.Content.ReadAsStringAsync();
+                JObject jo = new JObject();
+                jo = JObject.Parse(jsonResult);
+                int rs = (int)jo["individual_results_sets"][0]["individual_result_set_id"];
+                int rid = (int)jo["individual_results_sets"][0]["results"][0]["result_id"];
+                certUrl = $"https://runsignup.com/Race/Results/{raceId}/FinishersCert?resultSetId={rs}&resultId={rid}#certificate";
+            }
+            return certUrl;
+        }
+
+        [HttpGet]
+        public async Task<string> ScrapeCertificatePage(string url)
+        {
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync(url);
+            var pageContents = await response.Content.ReadAsStringAsync();
+            HtmlDocument pageDocument = new HtmlDocument();
+            pageDocument.LoadHtml(pageContents);
+            var headlineText = pageDocument.DocumentNode.SelectSingleNode("/html[1]/body[1]/div[7]/div[3]/div[3]/div[1]/div[1]/div[1]/div[2]/img[1]/@src[1]").Attributes;
+
+            string result = headlineText[0].Value;
+            return result;
+        }
+
 
     }
 }

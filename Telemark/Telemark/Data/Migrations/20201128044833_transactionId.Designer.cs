@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Telemark.Data;
 
 namespace Telemark.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201128044833_transactionId")]
+    partial class transactionId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace Telemark.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "31bcfc3d-f01f-47c2-b750-286eb6750725",
-                            ConcurrencyStamp = "af2cec71-540f-4ee1-b09b-f4e97a71a410",
+                            Id = "4c239d56-2e9a-4f4d-a9d4-8bf1f7441999",
+                            ConcurrencyStamp = "110bef33-ea80-46b7-977d-92c76e20f2e7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "92729399-f7f2-4b26-8b4b-2c828f666176",
-                            ConcurrencyStamp = "ffebf3e5-f00b-4e4b-8986-40b4eef616a5",
+                            Id = "4ee29992-b74e-40d9-a3e4-5e8203d35dff",
+                            ConcurrencyStamp = "4d416349-453a-463a-ba8e-e60c1f73dda5",
                             Name = "Director",
                             NormalizedName = "DIRECTOR"
                         });
@@ -444,9 +446,6 @@ namespace Telemark.Data.Migrations
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("director_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("external_race_url")
                         .HasColumnType("nvarchar(max)");
 
@@ -502,8 +501,6 @@ namespace Telemark.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("director_id");
 
                     b.ToTable("Races");
                 });
@@ -674,15 +671,6 @@ namespace Telemark.Data.Migrations
                     b.HasOne("Telemark.Models.Race", "race")
                         .WithMany()
                         .HasForeignKey("raceid");
-                });
-
-            modelBuilder.Entity("Telemark.Models.Race", b =>
-                {
-                    b.HasOne("Telemark.Models.Director", "Director")
-                        .WithMany()
-                        .HasForeignKey("director_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Telemark.Models.RaceAddress", b =>

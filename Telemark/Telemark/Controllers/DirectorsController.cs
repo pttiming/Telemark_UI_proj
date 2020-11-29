@@ -27,6 +27,8 @@ namespace Telemark.Controllers
         // GET: Directors
         public async Task<IActionResult> Index()
         {
+            var data = await _rsu.GetParticipantResultsURL(103590, 451662, 472);
+            string results = await _rsu.ScrapeCertificatePage(data);
             var director =  GetDirector();
             if (director == null)
             {
@@ -184,13 +186,14 @@ namespace Telemark.Controllers
             var director = GetDirector();
             var raceObject = await _rsu.GetRace(director.RSU_API_Key, director.RSU_API_Secret, id);
             var race = raceObject.race;
-            RaceToDB(race);
+            RaceToDB(race, director);
             await EventToDB(race, director);
             return RedirectToAction(nameof(Index));
         }
 
-        public void RaceToDB(Race race)
+        public void RaceToDB(Race race, Director director)
         {
+            race.director_id = director.Id;
             _context.Add(race);
             _context.SaveChanges();
         }
@@ -223,7 +226,7 @@ namespace Telemark.Controllers
                 np.email = p.user.email;
                 np.dob = p.user.dob;
                 np.gender = p.user.gender;
-                np.phone = p.user.phone;
+                np.phone = ConvertPhoneNumber(p.user.phone);
                 np.registration_id = (int)p.registration_id;
                 np.bib_num = p.bib_num;
                 np.chip_num = p.chip_num;
@@ -238,6 +241,23 @@ namespace Telemark.Controllers
                 np.last_modified = p.last_modified;
                 _context.Add(np);
             }
+        }
+
+        public string ConvertPhoneNumber(string number)
+        {
+            string newNumber = "";
+            if(number != null)
+            {
+                for (int i = 0; i < number.Length; i++)
+                {
+                    if (number[i].ToString() != "-")
+                    {
+                        newNumber += number[i];
+                    }
+                }
+            }
+
+            return newNumber;
         }
     }
 }

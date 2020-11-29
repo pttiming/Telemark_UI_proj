@@ -27,6 +27,9 @@ namespace Telemark.Models
         [Key]
         public int id { get; set; }
         public int race_id { get; set; }
+        [ForeignKey("Director")]
+        public int director_id { get; set; }
+        public Director Director { get; set; }
         public string name { get; set; }
         public string last_date { get; set; }
         public string last_end_date { get; set; }
@@ -49,6 +52,8 @@ namespace Telemark.Models
         public string real_time_notifications_enabled { get; set; }
         [NotMapped]
         public Event[] events { get; set; }
+
+        public string Keyword { get; set; }
 
     }
 

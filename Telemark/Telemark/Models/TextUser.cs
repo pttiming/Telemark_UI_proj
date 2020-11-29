@@ -12,6 +12,16 @@ namespace Telemark.Models
 
         public string PhoneNumber { get; set; }
 
+        public string current_race { get; set; }
+
+        public string last_request { get; set; }
+
+        public DateTime last_request_tem { get; set; }
+
+        public bool is_participant { get; set; }
+
         public int participant_id { get; set; }
+
+
     }
 }

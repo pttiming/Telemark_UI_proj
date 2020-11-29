@@ -41,8 +41,8 @@ namespace Telemark.Models
         public User user { get; set; }
         public int? registration_id { get; set; }
         public int? event_id { get; set; }
-        public int? rsu_transaction_id { get; set; }
-        public int? transaction_id { get; set; }
+        public string rsu_transaction_id { get; set; }
+        public string transaction_id { get; set; }
         public int? bib_num { get; set; }
         public string chip_num { get; set; }
         public int? age { get; set; }
