@@ -5,155 +5,62 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Race</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.race.race_id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.race_id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.Director)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.Director.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.last_date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.last_date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.last_end_date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.last_end_date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.next_date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.next_date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.next_end_date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.next_end_date)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.is_draft_race)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.is_draft_race)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.is_private_race)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.is_private_race)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.is_registration_open)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.is_registration_open)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.created)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.created)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.last_modified)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.last_modified)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.url)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.url)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.external_race_url)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.external_race_url)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.external_results_url)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.external_results_url)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.fb_page_id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.fb_page_id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.fb_event_id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.fb_event_id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.timezone)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.timezone)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.logo_url)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.logo_url)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.real_time_notifications_enabled)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.real_time_notifications_enabled)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.race.Keyword)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.race.Keyword)
-        </dd>
-    </dl>
-</div>
-<div class="col-md-8">
-    <h4>Google Maps</h4>
-    <br />
-    <div class="card" style="min-height: 400px">
-        <div class="card-header">
-            <h4 class="card-title">Regular Map</h4>
+<div class="container">
+    <div class="card card-profile">
+        <div class="card-avatar">
+            <a href="#pablo">
+                <img class="img" src="@Html.DisplayFor(model => model.race.logo_url)" />
+            </a>
         </div>
         <div class="card-content">
-            <div id="regularMap" class="map"></div>
+            <h6 class="category text-gray">@Html.DisplayFor(model => model.race.next_date)</h6>
+            <h4 class="card-title">@Html.DisplayFor(model => model.race.name)</h4>
+            <p class="description">
+                @Html.DisplayFor(model => model.race.description)
+            </p>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-xs-3 bg-info">
+                    <div class="profile-social-wrapper">
+                        <span class="profile-count">@Html.DisplayFor(model => model.events.Count)</span>
+                        <small class="">Events</small>
+                    </div>
+                </div>
+                <div class="col-xs-3 bg-info-alt">
+                    <div class="profile-social-wrapper">
+                        <span class="profile-count">@Html.DisplayFor(model => model.participants.Count)</span>
+                        <small class="">Participants</small>
+                    </div>
+                </div>
+                <div class="col-xs-3 bg-info">
+                    <div class="profile-social-wrapper">
+                        <span class="profile-count">@Html.DisplayFor(model => model.locations.Count)</span>
+                        <small class="">Locations</small>
+                    </div>
+                </div>
+                <div class="col-xs-3 bg-info-alt">
+                    <div class="profile-social-wrapper">
+                        <span class="profile-count">@Html.DisplayFor(model => model.users.Count)</span>
+                        <small class="">Users</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="col-md-6">
+        <h4>Race Locations</h4>
+        <br />
+        <div class="card" style="min-height: 400px">
+            <div class="card-header">
+                <h4 class="card-title">@Html.DisplayFor(model => model.race.name)</h4>
+            </div>
+            <div class="card-content">
+                <div id="regularMap" class="map"></div>
+            </div>
         </div>
     </div>
 </div>

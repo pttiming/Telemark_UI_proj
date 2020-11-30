@@ -59,11 +59,11 @@ namespace Telemark.Controllers
 
             RaceDetails_ViewModel raceDetails = new RaceDetails_ViewModel();
             raceDetails.race = race;
-            raceDetails.participants = _context.Participants.Where(p => p.race_id == id).ToList();
-            raceDetails.events = _context.Events.Where(p => p.race_id == id).ToList();
-            raceDetails.locations = _context.Locations.Where(p => p.race_id == id).ToList();
-            raceDetails.users = _context.TextUsers.Where(p => p.race_id == id).ToList();
-            raceDetails.infoMessages = _context.Info.Where(p => p.race_id == id).ToList();
+            raceDetails.participants = _context.Participants.Where(p => p.race_id == race.id).ToList();
+            raceDetails.events = _context.Events.Where(p => p.race_id == race.id).ToList();
+            raceDetails.locations = _context.Locations.Where(p => p.race_id == race.id).ToList();
+            raceDetails.users = _context.TextUsers.Where(p => p.race_id == race.id).ToList();
+            raceDetails.infoMessages = _context.Info.Where(p => p.race_id == race.id).ToList();
 
 
             if (race == null)
