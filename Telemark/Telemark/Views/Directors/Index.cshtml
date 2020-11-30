@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Telemark.Models.Race>
+﻿@model Telemark.ViewModels.DirectorEvents_ViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -18,21 +18,21 @@
                             <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th class="disabled-sorting"></th>
                                         <th>Name</th>
                                         <th>Date</th>
                                         <th class="disabled-sorting text-right">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.importedRaces)
                                 {
                                     <tr>
                                         <td><img src="@item.logo_url" class="figure-img" align="middle" style="max-height:75px; width:auto"  /></td>
                                         <td>@item.name</td>
                                         <td>@item.next_date</td>
                                         <td class="text-right">
-                                            <button asp-action="ImportRace" asp-route-id="@item.race_id"class="btn btn-primary btn-round btn-sm" >Import Race<i class="material-icons">download</i></button>
+                                            <a asp-action="Details" asp-route-id="@item.race_id" class="btn btn-primary btn-round btn-sm">Manage <i class="material-icons">settings</i></a>
                                         </td>
                                     </tr>
                                 }
@@ -65,14 +65,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model)
+                                    @foreach (var item in Model.rsuRaces)
                                     {
                                         <tr>
                                             <td><img src="@item.logo_url" class="figure-img" align="middle" style="max-height:75px; width:auto" /></td>
                                             <td>@item.name</td>
                                             <td>@item.next_date</td>
                                             <td class="text-right">
-                                                <a asp-action="ImportRace" asp-route-id="@item.race_id" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">download</a>
+                                                <a asp-action="ImportRace" asp-route-id="@item.race_id" class="btn btn-primary btn-round btn-sm">Import Race <i class="material-icons">download</i></a>
                                             </td>
                                         </tr>
                                     }

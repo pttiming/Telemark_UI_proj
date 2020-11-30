@@ -14,6 +14,8 @@ namespace Telemark.Models
 
         public string current_race { get; set; }
 
+        public int race_id { get; set; }
+
         public string last_request { get; set; }
 
         public DateTime last_request_tem { get; set; }

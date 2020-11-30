@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Telemark.Data;
 using Telemark.Models;
 using Telemark.Services;
+using Telemark.ViewModels;
 
 namespace Telemark.Controllers
 {
@@ -40,26 +41,37 @@ namespace Telemark.Controllers
             }
             //var applicationDbContext = _context.Directors.Include(d => d.IdentityUser);
             races = races.OrderBy(r => r.next_date).ToList();
-            return View(races);
+            DirectorEvents_ViewModel directorRaces = new DirectorEvents_ViewModel();
+            directorRaces.rsuRaces = races;
+            directorRaces.importedRaces = _context.Races.Where(r => r.director_id == director.Id).ToList();
+            return View(directorRaces);
         }
 
         // GET: Directors/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var director = await _context.Directors
-                .Include(d => d.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (director == null)
+            var race = _context.Races.Where(r => r.race_id == id).FirstOrDefault();
+
+            RaceDetails_ViewModel raceDetails = new RaceDetails_ViewModel();
+            raceDetails.race = race;
+            raceDetails.participants = _context.Participants.Where(p => p.race_id == id).ToList();
+            raceDetails.events = _context.Events.Where(p => p.race_id == id).ToList();
+            raceDetails.locations = _context.Locations.Where(p => p.race_id == id).ToList();
+            raceDetails.users = _context.TextUsers.Where(p => p.race_id == id).ToList();
+            raceDetails.infoMessages = _context.Info.Where(p => p.race_id == id).ToList();
+
+
+            if (race == null)
             {
                 return NotFound();
             }
 
-            return View(director);
+            return View(raceDetails);
         }
 
         // GET: Directors/Create
