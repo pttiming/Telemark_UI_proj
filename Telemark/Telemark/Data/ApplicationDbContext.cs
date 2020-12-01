@@ -44,6 +44,7 @@ namespace Telemark.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<InfoMessage> Info { get; set; }
         public DbSet<RaceAddress> RaceAddresses { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
 
     }
 }

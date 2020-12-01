@@ -37,13 +37,13 @@ namespace Telemark.Controllers
         public ActionResult Create(int id)
         {
             ViewBag.race_id = id;
-            return View();
+            return PartialView("_LocationModalPartial");
         }
 
         // POST: LocationsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Location location)
+        public async Task<ActionResult> Create(Location location, int? id)
         {
             try
             {

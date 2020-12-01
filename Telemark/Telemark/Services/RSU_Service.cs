@@ -114,12 +114,12 @@ namespace Telemark.Services
         {
             var director_id = _context.Races.Where(r => r.race_id == raceId).Select(r => r.director_id).FirstOrDefault();
             var director = _context.Directors.Where(d => d.Id == director_id).FirstOrDefault();
+            string certUrl = "";
             string apiKey = director.RSU_API_Key;
             string apiSecret = director.RSU_API_Secret;
             string url = $"https://runsignup.com/Rest/race/{raceId}/results/get-results?format=json&event_id={eventId}&bib_num={bib}&api_key={apiKey}&api_secret={apiSecret}";
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
-            string certUrl = "";
             if (response.IsSuccessStatusCode)
             {
                 string jsonResult = await response.Content.ReadAsStringAsync();
@@ -129,6 +129,7 @@ namespace Telemark.Services
                 int rid = (int)jo["individual_results_sets"][0]["results"][0]["result_id"];
                 certUrl = $"https://runsignup.com/Race/Results/{raceId}/FinishersCert?resultSetId={rs}&resultId={rid}#certificate";
             }
+            
             return certUrl;
         }
 
@@ -141,9 +142,15 @@ namespace Telemark.Services
             HtmlDocument pageDocument = new HtmlDocument();
             pageDocument.LoadHtml(pageContents);
             var headlineText = pageDocument.DocumentNode.SelectSingleNode("/html[1]/body[1]/div[7]/div[3]/div[3]/div[1]/div[1]/div[1]/div[2]/img[1]/@src[1]").Attributes;
-
             string result = headlineText[0].Value;
             return result;
+        }
+
+        public async Task<string> GetResultCertificate(int raceId, int eventId, int bib)
+        {
+            var url = await GetParticipantResultsURL(raceId, eventId, bib);
+            var results = await ScrapeCertificatePage(url);
+            return results;
         }
 
 

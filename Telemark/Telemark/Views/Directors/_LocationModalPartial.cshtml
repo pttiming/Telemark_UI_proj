@@ -1,0 +1,95 @@
+﻿@model Telemark.Models.Location
+    <!-- Modal -->
+    <div class="modal fade" id="add-location" tabindex="-1" role="dialog" aria-labelledby="addLocationLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addLocationLabel">Add Location</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-controller="Locations" asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="race_id" />
+                        <div class="form-group">
+                            <label asp-for="LocationName" class="control-label"></label>
+                            <input asp-for="LocationName" class="form-control" />
+                            <span asp-validation-for="LocationName" class="text-danger"></span>
+                        </div>
+                        <!--<div class="form-group">
+                            <label asp-for="race_id" class="control-label"></label>
+                            <select asp-for="race_id" class="form-control" asp-items="ViewBag.race_id"></select>
+                        </div>-->
+                        <div class="form-group">
+                            <label asp-for="Keyword" class="control-label"></label>
+                            <input asp-for="Keyword" class="form-control" />
+                            <span asp-validation-for="Keyword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address1" class="control-label"></label>
+                            <input asp-for="Address1" class="form-control" />
+                            <span asp-validation-for="Address1" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="City" class="control-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="State" class="control-label"></label>
+                            <input asp-for="State" class="form-control" />
+                            <span asp-validation-for="State" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ZipCode" class="control-label"></label>
+                            <input asp-for="ZipCode" class="form-control" />
+                            <span asp-validation-for="ZipCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-save="modal">Save</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        $(function () {
+            var placeholderElement = $('#modal-placeholder');
+            $('button[data-toggle="ajax-modal"]').click(function (event) {
+                var url = $(this).data('url');
+                $.get(url).done(function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
+                });
+            });
+        });
+
+        let rid = 999;
+
+        placeholderElement.on('click', '[data-save="modal"]', function (event) {
+            event.preventDefault();
+
+            var form = $(this).parents('.modal').find('form');
+            var actionUrl = form.attr('action');
+            var dataToSend = form.serialize();
+
+            $.post(actionUrl, dataToSend, rid).done(function (data) {
+                placeholderElement.find('.modal').modal('hide');
+            });
+        });
+    }

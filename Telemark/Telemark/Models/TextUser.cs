@@ -18,7 +18,7 @@ namespace Telemark.Models
 
         public string last_request { get; set; }
 
-        public DateTime last_request_tem { get; set; }
+        public DateTime last_request_time { get; set; }
 
         public bool is_participant { get; set; }
 

@@ -29,10 +29,23 @@
         document.getElementById("log").innerHTML = html + document.getElementById("log").innerHTML;
 
     });
+    connection.on('getSelfie', data => {
+        console.log(data);
+
+        let html = "";
+        html += "<div text-align: center> <img src='";
+        html += data;
+        html += "' text-align: center/></div>";
+
+        console.log(html);
+
+        document.getElementById("log").innerHTML = html;
+
+    });
 
     document.getElementById("sendButton").addEventListener("click", function (event) {
         let message = document.getElementById("message").value;
-        connection.invoke("SendResult", mid, message).catch(function (error) {
+        connection.invoke("SelfieResult", mid, message).catch(function (error) {
             return console.log(error.toString());
         });
         event.preventDefault();

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Telemark.Data;
 
 namespace Telemark.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201201115131_textuser")]
+    partial class textuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace Telemark.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f5e2f4e8-d911-4a37-908e-5d3934eddd59",
-                            ConcurrencyStamp = "f0d46fae-25e4-4e52-9615-e1913284a897",
+                            Id = "cc007d36-cd54-4460-96ad-918d94c7ca6e",
+                            ConcurrencyStamp = "6572ac77-f33e-4290-ad1b-4b33354a611c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d53271aa-a7aa-4e0b-8eae-c9c1ed75543f",
-                            ConcurrencyStamp = "ea115caa-af29-43f2-a496-33da9a8f2146",
+                            Id = "9f263cb2-644b-4fc4-a1e5-b2039f086cc1",
+                            ConcurrencyStamp = "f7b86976-74a9-495c-8743-45a901aa60aa",
                             Name = "Director",
                             NormalizedName = "DIRECTOR"
                         });

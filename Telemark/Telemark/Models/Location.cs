@@ -15,7 +15,7 @@ namespace Telemark.Models
         public int race_id { get; set; }
         public Race Race { get; set; }
         [Display(Name = "Name")]
-        public string LocationtName { get; set; }
+        public string LocationName { get; set; }
         [Display(Name = "Address")]
         public string Address1 { get; set; }
         public string Address2 { get; set; }

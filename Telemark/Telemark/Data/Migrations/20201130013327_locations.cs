@@ -51,7 +51,7 @@ namespace Telemark.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     race_id = table.Column<int>(nullable: false),
-                    LocationtName = table.Column<string>(nullable: true),
+                    LocationName = table.Column<string>(nullable: true),
                     Address1 = table.Column<string>(nullable: true),
                     Address2 = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),

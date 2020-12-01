@@ -405,7 +405,7 @@ namespace Telemark.Data.Migrations
                     b.Property<decimal>("Latitude")
                         .HasColumnType("decimal(10, 8)");
 
-                    b.Property<string>("LocationtName")
+                    b.Property<string>("LocationName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Longitude")

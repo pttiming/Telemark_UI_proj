@@ -78,6 +78,22 @@ namespace Telemark.Controllers
             return View(raceDetails);
         }
 
+        public IActionResult Location()
+        {
+            var model = new Location { };
+
+            return PartialView("_LocationModalPartial", model);
+        }
+
+        [HttpPost]
+        public IActionResult Location(Location location)
+        {
+
+            _context.Locations.Add(location);
+            _context.SaveChanges();
+            return PartialView("_ContactModalPartial", location);
+        }
+
         // GET: Directors/Create
         public IActionResult Create()
         {
