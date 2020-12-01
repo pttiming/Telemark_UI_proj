@@ -46,6 +46,18 @@ namespace Telemark.Controllers
             return View();
         }
 
+        public IActionResult SelfieOutput()
+        {
+
+            return View();
+        }
+
+        public IActionResult SelfieController()
+        {
+
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

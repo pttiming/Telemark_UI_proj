@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "_LayoutEmpty";
+    ViewData["Title"] = "Selfie Controller";
+    int mid = 2;
+}
+
+<input id="message" />
+<button id="sendButton">Send Message</button>
+
+<div id="log">
+
+</div>
+
+
+
+
+@section head {
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+}
+
+
+@section scripts {
+
+    <script>
+        var mid = "@mid";
+    </script>
+    <script src="~/js/announcer.js" asp-append-version="true"></script>
+
+}
