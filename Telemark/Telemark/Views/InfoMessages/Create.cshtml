@@ -1,5 +1,4 @@
-﻿@model Telemark.Models.InfoMessage
-
+﻿@model Telemark.ViewModels.DirectorInfoMessage_ViewModel
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,28 +12,21 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="race_id" class="control-label"></label>
-                <input asp-for="race_id" class="form-control" />
-                <span asp-validation-for="race_id" class="text-danger"></span>
+            <div class="form-group" class="form-control">
+                @Html.DropDownListFor(m=>m.message.race_id,Model.racelist)
             </div>
             <div class="form-group">
-                <label asp-for="keyword" class="control-label"></label>
-                <input asp-for="keyword" class="form-control" />
-                <span asp-validation-for="keyword" class="text-danger"></span>
+                <label asp-for="message.keyword" class="control-label"></label>
+                <input asp-for="message.keyword" class="form-control" />
+                <span asp-validation-for="message.keyword" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="information" class="control-label"></label>
-                <input asp-for="information" class="form-control" />
-                <span asp-validation-for="information" class="text-danger"></span>
+                <label asp-for="message.information" class="control-label"></label>
+                <input asp-for="message.information" class="form-control" />
+                <span asp-validation-for="message.information" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="director_id" class="control-label"></label>
-                <input asp-for="director_id" class="form-control" />
-                <span asp-validation-for="director_id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" asp-items="@Model.message" class="btn btn-default" />
             </div>
         </form>
     </div>

@@ -1,0 +1,78 @@
+﻿@model Telemark.ViewModels.DirectorLocations_ViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create" asp-items="@(new SelectList(Model.racelist,"Id", "Name"))">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.location.Race)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.location.LocationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.location.Address1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.location.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.location.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.location.ZipCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.location.Keyword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.location.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.locations) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Race.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Keyword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

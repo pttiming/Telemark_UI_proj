@@ -15,5 +15,7 @@ namespace Telemark.ViewModels
         public List<Race> races { get; set; }
 
         public IEnumerable<SelectListItem> racelist { get; set; }
+
+        public InfoMessage message { get; set; }
     }
 }

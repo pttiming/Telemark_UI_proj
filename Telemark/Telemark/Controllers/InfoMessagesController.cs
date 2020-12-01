@@ -44,18 +44,34 @@ namespace Telemark.Controllers
         }
 
         // GET: InfoMessagesController/Create
-        public ActionResult Create(DirectorInfoMessage_ViewModel model)
+        public ActionResult Create(DirectorInfoMessage_ViewModel dim)
         {
-            return View();
+            dim.director = GetDirector();
+            dim.messages = _context.Info.Where(m => m.director_id == dim.director.Id).ToList();
+            dim.races = _context.Races.Where(r => r.director_id == dim.director.Id).ToList();
+            IEnumerable<SelectListItem> selectRaces = from r in dim.races
+                                                      select new SelectListItem
+                                                      {
+                                                          Text = r.name,
+                                                          Value = r.id.ToString()
+                                                      };
+            dim.racelist = selectRaces;
+            return View(dim);
         }
 
         // POST: InfoMessagesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(InfoMessage message)
         {
             try
             {
+                var director = GetDirector();
+                message.director = director;
+                message.director_id = director.Id;
+                message.race = _context.Races.Where(r => r.id == message.race_id).SingleOrDefault();
+                _context.Info.Add(message);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
