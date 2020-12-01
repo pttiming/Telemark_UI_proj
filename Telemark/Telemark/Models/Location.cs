@@ -30,6 +30,9 @@ namespace Telemark.Models
         public decimal Longitude { get; set; }
         public string Keyword { get; set; }
         public string Description { get; set; }
+        public int director_id { get; set; }
+        [ForeignKey("Director")]
+        public Director director { get; set; }
 
 
     }

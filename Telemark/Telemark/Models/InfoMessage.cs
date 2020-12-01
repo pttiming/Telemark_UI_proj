@@ -16,6 +16,9 @@ namespace Telemark.Models
         public Race race { get; set; }
         public string keyword { get; set; }
         public string information { get; set; }
+        public int director_id { get; set; }
+        [ForeignKey("Director")]
+        public Director director { get; set; }
 
     }
 }
