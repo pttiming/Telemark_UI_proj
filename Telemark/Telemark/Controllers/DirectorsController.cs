@@ -19,10 +19,13 @@ namespace Telemark.Controllers
 
         public RSU_Service _rsu;
 
-        public DirectorsController(ApplicationDbContext context, RSU_Service rsu)
+        public GoogleService _google;
+
+        public DirectorsController(ApplicationDbContext context, RSU_Service rsu, GoogleService google)
         {
             _context = context;
             _rsu = rsu;
+            _google = google;
         }
 
         // GET: Directors
@@ -64,6 +67,7 @@ namespace Telemark.Controllers
             raceDetails.locations = _context.Locations.Where(p => p.race_id == race.id).ToList();
             raceDetails.users = _context.TextUsers.Where(p => p.race_id == race.id).ToList();
             raceDetails.infoMessages = _context.Info.Where(p => p.race_id == race.id).ToList();
+            raceDetails.raceAddress = _context.RaceAddresses.Where(r => r.race_id == race.id).FirstOrDefault();
 
 
             if (race == null)
@@ -197,14 +201,17 @@ namespace Telemark.Controllers
             var director = GetDirector();
             var raceObject = await _rsu.GetRace(director.RSU_API_Key, director.RSU_API_Secret, id);
             var race = raceObject.race;
-            RaceToDB(race, director);
+            await RaceToDB(race, director);
             await EventToDB(race, director);
             return RedirectToAction(nameof(Index));
         }
 
-        public void RaceToDB(Race race, Director director)
+        public async Task RaceToDB(Race race, Director director)
         {
             race.director_id = director.Id;
+            RaceAddress raceAddress = new RaceAddress();
+            raceAddress = race.address;
+            race.address = await _google.GetGeoCode(raceAddress);
             _context.Add(race);
             _context.SaveChanges();
         }

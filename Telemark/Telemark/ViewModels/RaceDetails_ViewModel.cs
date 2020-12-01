@@ -10,6 +10,8 @@ namespace Telemark.ViewModels
     {
         public Race race { get; set; }
 
+        public RaceAddress raceAddress { get; set; }
+
         public List<Participant> participants { get; set; }
 
         public List<Event> events { get; set; }

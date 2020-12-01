@@ -43,6 +43,7 @@ namespace Telemark.Data
         public DbSet<TextUser> TextUsers { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<InfoMessage> Info { get; set; }
+        public DbSet<RaceAddress> RaceAddresses { get; set; }
 
     }
 }

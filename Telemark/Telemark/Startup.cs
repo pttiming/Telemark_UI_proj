@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using Telemark.ActionFilters;
 using Telemark.Data;
 using Telemark.Services;
+using Telemark.Hubs;
+
 
 namespace Telemark
 {
@@ -47,6 +49,7 @@ namespace Telemark
             services.AddRazorPages();
             services.AddScoped<RSU_Service>();
             services.AddScoped<GoogleService>();
+            services.AddSignalR();
 
         }
 
@@ -78,7 +81,10 @@ namespace Telemark
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ResultsHub>("/resultshub");
             });
+
+
         }
     }
 }

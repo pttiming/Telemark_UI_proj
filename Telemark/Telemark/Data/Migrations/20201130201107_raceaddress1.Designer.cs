@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Telemark.Data;
 
 namespace Telemark.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201130201107_raceaddress1")]
+    partial class raceaddress1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace Telemark.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bbc5238c-299f-493f-81f2-c65eabbe49e7",
-                            ConcurrencyStamp = "9cf4458e-d07f-4df5-8b6c-1a3684d681ba",
+                            Id = "081fb6ab-7c5f-469f-8b57-5fa47d77578b",
+                            ConcurrencyStamp = "542ae8b2-d131-436e-884c-440f31164b27",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "cb3e9fa0-6ac0-4837-a94d-4a17eefb9093",
-                            ConcurrencyStamp = "6c1500a7-c0e0-445d-9485-2c5620c5f936",
+                            Id = "2f060611-40f1-4eee-a5cd-b95ebb2d32d1",
+                            ConcurrencyStamp = "4e9be362-071a-4fce-bf5b-3c9c0ec627cc",
                             Name = "Director",
                             NormalizedName = "DIRECTOR"
                         });
@@ -623,7 +625,7 @@ namespace Telemark.Data.Migrations
                     b.HasIndex("race_id")
                         .IsUnique();
 
-                    b.ToTable("RaceAddresses");
+                    b.ToTable("RaceAddress");
                 });
 
             modelBuilder.Entity("Telemark.Models.SmsMessage", b =>

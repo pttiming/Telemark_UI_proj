@@ -665,7 +665,7 @@ var demo = {
             scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
         }
 
-        var map = new google.maps.Map(document.getElementById("regularMap"), mapOptions);
+        var map = new google.maps.Map(document.getElementById("raceMap"), mapOptions);
 
         var marker = new google.maps.Marker({
             position: myLatlng,

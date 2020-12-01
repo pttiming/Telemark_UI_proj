@@ -20,5 +20,9 @@ namespace Telemark.Models
         public string state { get; set; }
         public string zipcode { get; set; }
         public string country_code { get; set; }
+        [Column(TypeName = "decimal(10, 8)")]
+        public decimal Latitude { get; set; }
+        [Column(TypeName = "decimal(11, 8)")]
+        public decimal Longitude { get; set; }
     }
 }

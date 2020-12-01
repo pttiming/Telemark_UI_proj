@@ -57,7 +57,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-content">
-                            <h4 class="card-title">Locations</h4>
+                            <h4 class="card-title">Locations</h4> 
                             <div class="toolbar">
                                 <!--        Here you can write extra buttons/actions for the toolbar              -->
                             </div>
@@ -75,7 +75,7 @@
                                         @foreach (var item in Model.locations)
                                         {
                                             <tr>
-                                                <td>@item.LocationtName" class="figure-img" align="middle" style="max-height:75px; width:auto" /></td>
+                                                <td>@item.LocationtName</td>
                                                 <td>@item.Keyword</td>
                                                 <td>@item.Description</td>
                                                 <td class="text-right">
@@ -136,14 +136,13 @@
 </div>
 <div class="container">
     <div class="col-md-6">
-        <h4>Race Locations</h4>
         <br />
         <div class="card" style="min-height: 400px">
             <div class="card-header">
-                <h4 class="card-title">@Html.DisplayFor(model => model.race.name)</h4>
+                <h4 class="card-title">@Html.DisplayFor(model => model.race.name) Race Locations</h4>
             </div>
             <div class="card-content">
-                <div id="regularMap" class="map"></div>
+                <div id="locationsMap" class="map"></div>
             </div>
         </div>
     </div>
@@ -156,7 +155,7 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            demo.initSmallGoogleMaps();
+            initRaceGoogleMaps();
         });
         $(document).ready(function () {
             $('#locationtable').DataTable({
@@ -210,5 +209,56 @@
 
             $('.card .material-datatables label').addClass('form-group');
         });
+
+        function initRaceGoogleMaps(){
+
+            var locationsArray = [];
+            var loc = []
+
+            @foreach (var d in Model.locations)
+            {
+                @:locationsArray.push("@d");
+            }
+
+            var bounds = new google.maps.LatLngBounds();
+
+            alert(locationsArray[0][2]);
+            // Regular Map
+            var myLatlng = new google.maps.LatLng(@Model.raceAddress.Latitude, @Model.raceAddress.Longitude);
+            var mapOptions = {
+                zoom: 15,
+                center: myLatlng,
+                scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
+            }
+
+            var raceMap = new google.maps.Map(document.getElementById("locationsMap"), mapOptions);
+
+
+            var homeMarker = new google.maps.Marker({
+                position: myLatlng,
+                title: "Race Address",
+                label: "@Model.race.name"
+            });
+
+            homeMarker.setMap(raceMap);
+
+            var marker, i;
+
+            for (i = 0; i < locationsArray.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locationsArray[i][1], locationsArray[i][2]),
+                    label: locationsArray[i][0],
+                    map: raceMap
+                });
+
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        infowindow.setContent(locationsArray[i][0]);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+            }
+        };
+
     </script>
 }
