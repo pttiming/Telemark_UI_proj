@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Telemark.Data;
 using Telemark.Models;
 using Telemark.Services;
@@ -47,6 +48,7 @@ namespace Telemark.Controllers
             DirectorEvents_ViewModel directorRaces = new DirectorEvents_ViewModel();
             directorRaces.rsuRaces = races;
             directorRaces.importedRaces = _context.Races.Where(r => r.director_id == director.Id).ToList();
+            directorRaces.locations = _context.Locations.Where(l => l.director_id == director.Id).ToList();
             return View(directorRaces);
         }
 
@@ -67,7 +69,9 @@ namespace Telemark.Controllers
             raceDetails.locations = _context.Locations.Where(p => p.race_id == race.id).ToList();
             raceDetails.users = _context.TextUsers.Where(p => p.race_id == race.id).ToList();
             raceDetails.infoMessages = _context.Info.Where(p => p.race_id == race.id).ToList();
-            raceDetails.raceAddress = _context.RaceAddresses.Where(r => r.race_id == race.id).FirstOrDefault();
+            raceDetails.lat = _context.RaceAddresses.Where(ra => ra.race_id == race.id).Select(ra => ra.Latitude).Single();
+            raceDetails.lng = _context.RaceAddresses.Where(ra => ra.race_id == race.id).Select(ra => ra.Longitude).Single();
+            raceDetails.locs = raceDetails.locations.ToArray();
 
 
             if (race == null)
@@ -84,16 +88,6 @@ namespace Telemark.Controllers
 
             return PartialView("_LocationModalPartial", model);
         }
-
-        [HttpPost]
-        public IActionResult Location(Location location)
-        {
-
-            _context.Locations.Add(location);
-            _context.SaveChanges();
-            return PartialView("_ContactModalPartial", location);
-        }
-
         // GET: Directors/Create
         public IActionResult Create()
         {

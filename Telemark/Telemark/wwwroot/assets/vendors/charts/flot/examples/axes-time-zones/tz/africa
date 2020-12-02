@@ -244,7 +244,7 @@ Rule	Egypt	2006	only	-	Sep	21	23:00s	0	-
 Rule	Egypt	2007	only	-	Sep	Thu>=1	23:00s	0	-
 # From Abdelrahman Hassan (2007-09-06):
 # Due to the Hijri (lunar Islamic calendar) year being 11 days shorter
-# than the year of the Gregorian calendar, Ramadan shifts earlier each
+# than the year of the orian calendar, Ramadan shifts earlier each
 # year. This year it will be observed September 13 (September is quite
 # hot in Egypt), and the idea is to make fasting easier for workers by
 # shifting business hours one hour out of daytime heat. Consequently,

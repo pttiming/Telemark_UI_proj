@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Telemark.Data;
 using Telemark.Models;
 using Telemark.Services;
+using Telemark.ViewModels;
 
 namespace Telemark.Controllers
 {
@@ -24,7 +27,19 @@ namespace Telemark.Controllers
         // GET: LocationsController
         public ActionResult Index()
         {
-            return View();
+            DirectorLocations_ViewModel dl = new DirectorLocations_ViewModel();
+            dl.director = GetDirector();
+            dl.locations = _context.Locations.Where(m => m.director_id == dl.director.Id).ToList();
+            dl.races = _context.Races.Where(r => r.director_id == dl.director.Id).ToList();
+            IEnumerable<SelectListItem> selectRaces = from r in dl.races
+                                                      select new SelectListItem
+                                                      {
+                                                          Text = r.name,
+                                                          Value = r.id.ToString()
+                                                      };
+            dl.racelist = selectRaces;
+
+            return View(dl);
         }
 
         // GET: LocationsController/Details/5
@@ -34,25 +49,36 @@ namespace Telemark.Controllers
         }
 
         // GET: LocationsController/Create
-        public ActionResult Create(int id)
+        public ActionResult Create(DirectorLocations_ViewModel dl)
         {
-            ViewBag.race_id = id;
-            return PartialView("_LocationModalPartial");
+            dl.director = GetDirector();
+            dl.locations = _context.Locations.Where(m => m.director_id == dl.director.Id).ToList();
+            dl.races = _context.Races.Where(r => r.director_id == dl.director.Id).ToList();
+            IEnumerable<SelectListItem> selectRaces = from r in dl.races
+                                                      select new SelectListItem
+                                                      {
+                                                          Text = r.name,
+                                                          Value = r.id.ToString()
+                                                      };
+            dl.racelist = selectRaces;
+            return View(dl);
         }
 
         // POST: LocationsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Location location, int? id)
+        public async Task<ActionResult> Create(Location location)
         {
             try
             {
-                var newLocation = await _google.GetGeoCode(location);
-                newLocation.race_id = 76;
-                newLocation.Id = 0;
-                _context.Locations.Add(newLocation);
+                var director = GetDirector();
+                location.director = director;
+                location.director_id = director.Id;
+                location = await _google.GetGeoCode(location);
+                location.Race = _context.Races.Where(r => r.id == location.race_id).FirstOrDefault();
+                _context.Locations.Add(location);
                 _context.SaveChanges();
-                return RedirectToAction("Index", "Directors");
+                return RedirectToAction("Index", "Locations");
             }
             catch
             {
@@ -100,6 +126,13 @@ namespace Telemark.Controllers
             {
                 return View();
             }
+        }
+        public Director GetDirector()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var director = _context.Directors.Where(d => d.IdentityUserId == userId).SingleOrDefault();
+
+            return director;
         }
     }
 }

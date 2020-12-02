@@ -10,7 +10,9 @@ namespace Telemark.ViewModels
     {
         public Race race { get; set; }
 
-        public RaceAddress raceAddress { get; set; }
+        public decimal lat { get; set; }
+
+        public decimal lng { get; set; }
 
         public List<Participant> participants { get; set; }
 
@@ -18,10 +20,13 @@ namespace Telemark.ViewModels
 
         public List<Location> locations { get; set; }
 
+        public string jsonLocations { get; set; }
+
         public List<SmsMessage> messages { get; set; }
 
         public List<TextUser> users { get; set; }
 
         public List<InfoMessage> infoMessages { get; set; }
+        public Location[] locs { get; set; }
     }
 }

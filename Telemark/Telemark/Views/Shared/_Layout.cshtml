@@ -154,45 +154,13 @@
                     </main>
                 </div>
                 <footer class="footer">
-                    <div class="container-fluid">
-                        <nav class="pull-left">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Documentation
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Contact
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Support
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <p class="copyright pull-right">
-                            &copy;
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script>
-                            <a href="#">Telemark Admin</a>
-                        </p>
-                    </div>
+                   
                 </footer>
             </div>
         </div>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <!--<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
-        <script src="~/js/site.js" asp-append-version="true"></script>
+
 
     }
     else
@@ -212,6 +180,7 @@
     }
 </body>
 </html>
+@RenderSection("Scripts", required: false)
 <!--   Core JS Files   -->
 <script src="~/assets/vendors/jquery-3.1.1.min.js" type="text/javascript"></script>
 <script src="~/assets/vendors/jquery-ui.min.js" type="text/javascript"></script>
@@ -221,7 +190,7 @@
 <!-- Forms Validations Plugin -->
 <script src="~/assets/vendors/jquery.validate.min.js"></script>
 <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
-<script src="~/assets/vendors/moment.min.js"></script>
+<!--<script src="~/assets/vendors/moment.min.js"></script>
 <!--  Charts Plugin -->
 <!--<script src="~/assets/vendors/chartist.min.js"></script>-->
 <!--  Plugin for the Wizard -->
@@ -262,5 +231,5 @@
         }, 700)
     });
 </script>
-@RenderSection("Scripts", required: false)
+
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Telemark.Data;
+using Telemark.Models;
 using Telemark.Services;
 
 namespace Telemark.Hubs
@@ -26,12 +27,14 @@ namespace Telemark.Hubs
 
         public Task SendResult(string mid, string message)
         {
+            var results = ParseRR(message);
+
             return Clients.Group(mid).SendAsync("GetResult", message);
         }
 
         public Task DecodeResult(string mid, string message)
         {
-            
+
             return Clients.Group(mid).SendAsync("GetResult", message);
         }
 
@@ -59,6 +62,24 @@ namespace Telemark.Hubs
             Console.WriteLine("JOINED GROUP:" + Context.ConnectionId + " - " + groupName);
             //await Clients.Groups(groupName).SendAsync(Context.ConnectionId, groupName);
             //await Clients.Group(groupName).InvokeAsync("Send", $"{Context.ConnectionId} joined {groupName}");
+        }
+        public string[] ParseRR(string raw)
+        {
+            string[] words = raw.Split("|");
+
+            return words;
+        }
+
+        public Participant GetParticipant(int bib)
+        {
+            var participant = _context.Participants.Where(p => p.bib_num == bib).SingleOrDefault();
+
+            return participant;
+        }
+        
+        public List<PushResult> CheckForPush(Participant participant)
+        {
+            var subscriptions = _context.
         }
     }
 }

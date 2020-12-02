@@ -11,5 +11,9 @@ namespace Telemark.ViewModels
         public List<Race> rsuRaces { get; set; }
 
         public List<Race> importedRaces { get; set; }
+
+        public string jsonEvents { get; set; }
+
+        public List<Location> locations { get; set; }
     }
 }

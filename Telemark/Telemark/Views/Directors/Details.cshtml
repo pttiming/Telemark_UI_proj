@@ -59,10 +59,7 @@
                         <div class="card-content">
                             <h4 class="card-title">Locations</h4> 
                             <div class="toolbar">
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#add-location" asp-route-id="@Html.DisplayFor(model => model.race.race_id)" data-url="@Url.Action("Location", "Directors")">
-                                    Add Location
-                                </button>
+
                             </div>
                             <div class="material-datatables">
                                 <table id="locationtable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
@@ -106,23 +103,22 @@
                                 <table id="infotable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
                                             <th>Keyword</th>
                                             <th>Description</th>
-                                            <th class="disabled-sorting text-right">Actions</th>
+                                            <!--<th class="disabled-sorting text-right">Actions</th>-->
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in Model.infoMessages)
                                         {
-                                            <tr>
-                                                <td>@item.id"</td>
-                                                <td>@item.keyword</td>
-                                                <td>@item.information</td>
-                                                <td class="text-right">
-                                                    <a asp-action="Edit" asp-route-id="@item.race_id" class="btn btn-primary btn-round btn-sm">Edit<i class="material-icons">edit_location</i></a>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>@item.keyword</td>
+                                            <td>@item.information</td>
+                                            <!--
+                                            <td class="text-right">
+                                                <a asp-action="Edit" asp-route-id="@item.race_id" class="btn btn-primary btn-round btn-sm">Edit<i class="material-icons">edit_location</i></a>
+                                            </td>-->
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -137,7 +133,6 @@
         </div>
     </div>
 </div>
-<div id="modal-placeholder"></div>
 <div class="container">
     <div class="col-md-6">
         <br />
@@ -146,7 +141,7 @@
                 <h4 class="card-title">@Html.DisplayFor(model => model.race.name) Race Locations</h4>
             </div>
             <div class="card-content">
-                <div id="locationsMap" class="map"></div>
+                <div id="raceMap" class="map"></div>
             </div>
         </div>
     </div>
@@ -156,11 +151,71 @@
     <a asp-action="Edit" asp-route-id="@Model.race.id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            initRaceGoogleMaps();
-        });
+    <script type="text/javascript">
+        console.log("test");
+        var locationsArray = [];
+            var i;
+            @foreach(var l in Model.locations)
+            {
+                @:locationsArray.push(@l);
+            }
+
+        alert(locationsArray)
+        
+    @*var google = {
+        initSmallGoogleMaps: function () {
+            var locationsArray = [];
+            var i;
+            @foreach(var l in Model.locations)
+            {
+                @:locationsArray.push(@l);
+            }
+
+            alert(locationsArray)
+            // Regular Map
+            var myLatlng = new google.maps.LatLng(@Model.lat, @Model.lng);
+            var mapOptions = {
+                zoom: 8,
+                center: myLatlng,
+                scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
+            }
+
+            var map = new google.maps.Map(document.getElementById("raceMap"), mapOptions);
+
+            var raceMarker = new google.maps.Marker({
+                position: myLatlng,
+                title: "@Model.race.name",
+                map: map
+            });
+
+            var marker, i;
+
+            for (i = 0; i < locations.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i]["Latitude"], locations[i]["Longitude"]),
+                    label: locations[i]["LocationName"],
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        infowindow.setContent(locations[i][0]);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+            }
+
+
+        }
+    }*@
+       
+    $(document).ready(function () {
+        //google.initSmallGoogleMaps();
+    });
+    </script>
+    <script type="text/javascript">
         $(document).ready(function () {
             $('#locationtable').DataTable({
                 "pagingType": "full_numbers",
@@ -213,57 +268,8 @@
 
             $('.card .material-datatables label').addClass('form-group');
         });
-
-        function initRaceGoogleMaps(){
-
-            var locationsArray = [];
-            var loc = []
-
-            @foreach (var d in Model.locations)
-            {
-                @:locationsArray.push("@d");
-            }
-
-            var bounds = new google.maps.LatLngBounds();
-
-            alert(locationsArray[0][2]);
-            // Regular Map
-            var myLatlng = new google.maps.LatLng(@Model.raceAddress.Latitude, @Model.raceAddress.Longitude);
-            var mapOptions = {
-                zoom: 15,
-                center: myLatlng,
-                scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-            }
-
-            var raceMap = new google.maps.Map(document.getElementById("locationsMap"), mapOptions);
-
-
-            var homeMarker = new google.maps.Marker({
-                position: myLatlng,
-                title: "Race Address",
-                label: "@Model.race.name"
-            });
-
-            homeMarker.setMap(raceMap);
-
-            var marker, i;
-
-            for (i = 0; i < locationsArray.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(locationsArray[i][1], locationsArray[i][2]),
-                    label: locationsArray[i][0],
-                    map: raceMap
-                });
-
-                google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                    return function () {
-                        infowindow.setContent(locationsArray[i][0]);
-                        infowindow.open(map, marker);
-                    }
-                })(marker, i));
-            }
-        };
-
-
     </script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    
 }
